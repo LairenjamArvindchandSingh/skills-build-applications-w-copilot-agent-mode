@@ -14,7 +14,6 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/octofi
 async function seed() {
     console.log('Seed the octofit_db database with test data');
     await mongoose_1.default.connect(MONGODB_URI);
-    // Clear existing data
     await Promise.all([
         User_js_1.default.deleteMany({}),
         Team_js_1.default.deleteMany({}),
@@ -22,7 +21,6 @@ async function seed() {
         Leaderboard_js_1.default.deleteMany({}),
         Workout_js_1.default.deleteMany({}),
     ]);
-    // Create users
     const users = await User_js_1.default.insertMany([
         { username: 'octocat', email: 'octocat@github.com', password: 'password123' },
         { username: 'monalisa', email: 'monalisa@github.com', password: 'password123' },
@@ -30,13 +28,11 @@ async function seed() {
         { username: 'defunkt', email: 'defunkt@github.com', password: 'password123' },
         { username: 'mojombo', email: 'mojombo@github.com', password: 'password123' },
     ]);
-    // Create teams
     await Team_js_1.default.insertMany([
         { name: 'OctoFit Champions', members: [users[0]._id, users[1]._id] },
         { name: 'GitHub Runners', members: [users[2]._id, users[3]._id] },
         { name: 'Commit Crushers', members: [users[4]._id] },
     ]);
-    // Create activities
     await Activity_js_1.default.insertMany([
         { user: users[0]._id, type: 'running', duration: 30 },
         { user: users[1]._id, type: 'cycling', duration: 45 },
@@ -44,7 +40,6 @@ async function seed() {
         { user: users[3]._id, type: 'yoga', duration: 40 },
         { user: users[4]._id, type: 'weightlifting', duration: 50 },
     ]);
-    // Create leaderboard
     await Leaderboard_js_1.default.insertMany([
         { user: users[0]._id, score: 150 },
         { user: users[1]._id, score: 200 },
@@ -52,7 +47,6 @@ async function seed() {
         { user: users[3]._id, score: 125 },
         { user: users[4]._id, score: 100 },
     ]);
-    // Create workouts
     await Workout_js_1.default.insertMany([
         { name: '5K Run', description: 'A 5 kilometer run outdoors', duration: 30, difficulty: 'easy' },
         { name: 'HIIT Session', description: 'High intensity interval training', duration: 45, difficulty: 'hard' },
