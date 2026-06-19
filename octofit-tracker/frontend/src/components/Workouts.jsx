@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-const getApiUrl = () => {
+const getWorkoutsApiUrl = () => {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
   if (codespaceName && codespaceName !== 'undefined') {
-    return `https://${codespaceName}-8000.app.github.dev`;
+    return `https://${codespaceName}-8000.app.github.dev/api/workouts`;
   }
-  return 'http://localhost:8000';
+  return 'http://localhost:8000/api/workouts';
 };
 
 export default function Workouts() {
@@ -16,8 +16,7 @@ export default function Workouts() {
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
-        const apiUrl = getApiUrl();
-        const response = await fetch(`${apiUrl}/api/workouts/`);
+        const response = await fetch(getWorkoutsApiUrl());
         if (!response.ok) throw new Error('Failed to fetch workouts');
         
         const data = await response.json();

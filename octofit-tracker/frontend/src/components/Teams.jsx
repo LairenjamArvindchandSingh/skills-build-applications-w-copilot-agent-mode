@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 
-const getApiUrl = () => {
+const getTeamsApiUrl = () => {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
   if (codespaceName && codespaceName !== 'undefined') {
-    return `https://${codespaceName}-8000.app.github.dev`;
+    return `https://${codespaceName}-8000.app.github.dev/api/teams`;
   }
-  return 'http://localhost:8000';
+  return 'http://localhost:8000/api/teams';
 };
 
 export default function Teams() {
@@ -16,8 +16,7 @@ export default function Teams() {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const apiUrl = getApiUrl();
-        const response = await fetch(`${apiUrl}/api/teams/`);
+        const response = await fetch(getTeamsApiUrl());
         if (!response.ok) throw new Error('Failed to fetch teams');
         
         const data = await response.json();

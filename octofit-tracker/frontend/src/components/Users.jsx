@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
 // Get API base URL from environment or fallback to localhost
-const getApiUrl = () => {
+const getUsersApiUrl = () => {
   const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
   if (codespaceName && codespaceName !== 'undefined') {
-    return `https://${codespaceName}-8000.app.github.dev`;
+    return `https://${codespaceName}-8000.app.github.dev/api/users`;
   }
-  return 'http://localhost:8000';
+  return 'http://localhost:8000/api/users';
 };
 
 export default function Users() {
@@ -17,8 +17,7 @@ export default function Users() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const apiUrl = getApiUrl();
-        const response = await fetch(`${apiUrl}/api/users/`);
+        const response = await fetch(getUsersApiUrl());
         if (!response.ok) throw new Error('Failed to fetch users');
         
         const data = await response.json();
