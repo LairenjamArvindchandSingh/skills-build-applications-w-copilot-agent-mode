@@ -12,7 +12,6 @@ async function seed(): Promise<void> {
   console.log('Seed the octofit_db database with test data');
   await mongoose.connect(MONGODB_URI);
 
-  // Clear existing data
   await Promise.all([
     User.deleteMany({}),
     Team.deleteMany({}),
@@ -21,7 +20,6 @@ async function seed(): Promise<void> {
     Workout.deleteMany({}),
   ]);
 
-  // Create users
   const users = await User.insertMany([
     { username: 'octocat', email: 'octocat@github.com', password: 'password123' },
     { username: 'monalisa', email: 'monalisa@github.com', password: 'password123' },
@@ -30,14 +28,12 @@ async function seed(): Promise<void> {
     { username: 'mojombo', email: 'mojombo@github.com', password: 'password123' },
   ]);
 
-  // Create teams
   await Team.insertMany([
     { name: 'OctoFit Champions', members: [users[0]._id, users[1]._id] },
     { name: 'GitHub Runners', members: [users[2]._id, users[3]._id] },
     { name: 'Commit Crushers', members: [users[4]._id] },
   ]);
 
-  // Create activities
   await Activity.insertMany([
     { user: users[0]._id, type: 'running', duration: 30 },
     { user: users[1]._id, type: 'cycling', duration: 45 },
@@ -46,7 +42,6 @@ async function seed(): Promise<void> {
     { user: users[4]._id, type: 'weightlifting', duration: 50 },
   ]);
 
-  // Create leaderboard
   await Leaderboard.insertMany([
     { user: users[0]._id, score: 150 },
     { user: users[1]._id, score: 200 },
@@ -55,7 +50,6 @@ async function seed(): Promise<void> {
     { user: users[4]._id, score: 100 },
   ]);
 
-  // Create workouts
   await Workout.insertMany([
     { name: '5K Run', description: 'A 5 kilometer run outdoors', duration: 30, difficulty: 'easy' },
     { name: 'HIIT Session', description: 'High intensity interval training', duration: 45, difficulty: 'hard' },
