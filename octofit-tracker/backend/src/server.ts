@@ -1,11 +1,11 @@
 import cors from 'cors';
 import express, { Application } from 'express';
-import { connectDatabase } from './config/database.js';
-import usersRouter from './routes/users.js';
-import teamsRouter from './routes/teams.js';
-import activitiesRouter from './routes/activities.js';
-import leaderboardRouter from './routes/leaderboard.js';
-import workoutsRouter from './routes/workouts.js';
+import { connectDatabase } from './config/database';
+import usersRouter from './routes/users';
+import teamsRouter from './routes/teams';
+import activitiesRouter from './routes/activities';
+import leaderboardRouter from './routes/leaderboard';
+import workoutsRouter from './routes/workouts';
 
 export const PORT = Number(process.env.PORT) || 8000;
 
@@ -30,7 +30,13 @@ app.use('/api/leaderboard', leaderboardRouter);
 app.use('/api/workouts', workoutsRouter);
 
 export async function startServer(): Promise<void> {
-  await connectDatabase();
+  try {
+    await connectDatabase();
+  } catch (error) {
+    console.warn('⚠️  MongoDB connection failed. Running server in offline mode.');
+    console.warn('Error:', error instanceof Error ? error.message : String(error));
+  }
+  
   app.listen(PORT, () => {
     console.log(`API listening on ${BASE_URL}`);
     console.log(`  GET ${BASE_URL}/api/users`);
