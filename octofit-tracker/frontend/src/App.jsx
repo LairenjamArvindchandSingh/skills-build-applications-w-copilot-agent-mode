@@ -1,8 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import './App.css';
+import Users from './components/Users';
+import Teams from './components/Teams';
+import Activities from './components/Activities';
+import Leaderboard from './components/Leaderboard';
+import Workouts from './components/Workouts';
 
 function App() {
   const [count, setCount] = useState(0)
